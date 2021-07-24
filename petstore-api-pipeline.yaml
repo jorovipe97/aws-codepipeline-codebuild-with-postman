@@ -53,6 +53,9 @@ Resources:
           Version: "2012-10-17"
           Statement:
           -
+            # It was failing with a Upload to S3 failed with the following error: Access Denied - CodeStarConnections
+            # https://stackoverflow.com/a/66449023
+            # Solution was to add the s3:PutObjectAcl action.
             Effect: "Allow"
             Action:
             - "s3:DeleteObject"
@@ -60,6 +63,7 @@ Resources:
             - "s3:GetObjectVersion"
             - "s3:ListBucket"
             - "s3:PutObject"
+            - "s3:PutObjectAcl"
             - "s3:GetBucketPolicy"
             Resource: '*'
           -
