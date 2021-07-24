@@ -16,18 +16,29 @@ aws s3 cp 02postman/PetStoreAPIEnvironment.postman_environment.json \
 # aws cloudformation create-stack --stack-name petstore-api-pipeline \
 # 	--template-body file://./petstore-api-pipeline.yaml \
 # 	--parameters \
-# 		ParameterKey=BucketRoot,ParameterValue=<REPLACE_ME_WITH_UNIQUE_BUCKET_NAME> \
-# 		ParameterKey=GitHubBranch,ParameterValue=<REPLACE_ME_GITHUB_BRANCH> \
-# 		ParameterKey=GitHubRepositoryName,ParameterValue=<REPLACE_ME_GITHUB_REPO> \
+# 		ParameterKey=BucketRoot,ParameterValue=jorovipe97-codepipeline-codebuild-with-postman \
+# 		ParameterKey=GitHubBranch,ParameterValue=master \
+# 		ParameterKey=GitHubRepositoryName,ParameterValue=aws-codepipeline-codebuild-with-postman \
 # 		ParameterKey=GitHubToken,ParameterValue=<REPLACE_ME_GITHUB_TOKEN> \
-# 		ParameterKey=GitHubUser,ParameterValue=<REPLACE_ME_GITHUB_USERNAME> \
+# 		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
 # 	--capabilities CAPABILITY_NAMED_IAM
 
 aws cloudformation create-stack --stack-name petstore-api-pipeline \
 	--template-body file://./petstore-api-pipeline.yaml \
 	--parameters \
-		ParameterKey=BucketRoot,ParameterValue=<REPLACE_ME_WITH_UNIQUE_BUCKET_NAME> \
-		ParameterKey=GitHubBranch,ParameterValue=<REPLACE_ME_GITHUB_BRANCH> \
-		ParameterKey=GitHubRepositoryName,ParameterValue=<REPLACE_ME_GITHUB_REPO> \
-		ParameterKey=GitHubUser,ParameterValue=<REPLACE_ME_GITHUB_USERNAME> \
+		ParameterKey=BucketRoot,ParameterValue=jorovipe97-codepipeline-codebuild-with-postman \
+		ParameterKey=GitHubBranch,ParameterValue=master \
+		ParameterKey=GitHubRepositoryName,ParameterValue=aws-codepipeline-codebuild-with-postman \
+		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
+		ParameterKey=ConnectionName,ParameterValue=github-postman-connection \
+	--capabilities CAPABILITY_NAMED_IAM
+
+aws cloudformation update-stack --stack-name petstore-api-pipeline \
+	--template-body file://./petstore-api-pipeline.yaml \
+	--parameters \
+		ParameterKey=BucketRoot,ParameterValue=jorovipe97-codepipeline-codebuild-with-postman \
+		ParameterKey=GitHubBranch,ParameterValue=master \
+		ParameterKey=GitHubRepositoryName,ParameterValue=aws-codepipeline-codebuild-with-postman \
+		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
+		ParameterKey=ConnectionName,ParameterValue=github-postman-connection \
 	--capabilities CAPABILITY_NAMED_IAM
