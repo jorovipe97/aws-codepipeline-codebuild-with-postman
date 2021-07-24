@@ -17,14 +17,9 @@ Parameters:
     Description: bucket containing project artifacts e.g. postman config files, etc.
     MinLength: 1
     MaxLength: 100
-  # Passed to the AWS::CodeStarConnections::Connection resource
-  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
-  ConnectionName:
+  GithubConnection:
     Type: String
-    Description: The name of the connection. Connection names must be unique in an AWS user account.
-    MinLength: 1
-    MaxLength: 32
-    AllowedPattern: '[\s\S]*'
+    Description: The value of the exported Github connection on the github-connection.yaml template.
 
 Resources:
 
@@ -267,20 +262,10 @@ Resources:
           Value:
             Fn::Sub: ${AWS::StackName}-newman-project
 
-  # https://docs.aws.amazon.com/codepipeline/latest/userguide/connections-github.html
-  # https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html
-  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
-  GithubConnection:
-    Type: AWS::CodeStarConnections::Connection
-    Properties:
-      ConnectionName: !Ref ConnectionName
-      ProviderType: GitHub
-
   PetStoreAPIPipeline:
     Type: "AWS::CodePipeline::Pipeline"
     DependsOn:
       - PetStoreAPISAMCodeBuildProject
-      - GithubConnection
     Properties:
       Name: petstore-api-pipeline
       RoleArn:
@@ -302,7 +287,9 @@ Resources:
             Version: 1
             Provider: CodeStarSourceConnection
           Configuration:
-            ConnectionArn: !Ref GithubConnection
+            ConnectionArn:
+              Fn::ImportValue:
+                !Ref GithubConnection
             # The owner and name of the repository where source changes
             # are to be detected.
             # Example: some-user/my-repo

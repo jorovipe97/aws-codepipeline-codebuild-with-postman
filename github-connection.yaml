@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Just an Github Connection.
+
+Parameters:
+
+  # Passed to the AWS::CodeStarConnections::Connection resource
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
+  ConnectionName:
+    Type: String
+    Description: The name of the connection. Connection names must be unique in an AWS user account.
+    MinLength: 1
+    MaxLength: 32
+    AllowedPattern: '[\s\S]*'
+  
+Resources:
+
+  # https://docs.aws.amazon.com/codepipeline/latest/userguide/connections-github.html
+  # https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codestarconnections-connection.html
+  GithubConnection:
+    Type: AWS::CodeStarConnections::Connection
+    Properties:
+      ConnectionName: !Ref ConnectionName
+      ProviderType: GitHub
+
+Outputs:
+  Connection:
+    Description: The github connection ARN.
+    Value: !Ref GithubConnection
+    Export:
+      Name: !Join
+        - ':'
+        - - !Ref "AWS::StackName"
+          - !Ref "ConnectionName"

@@ -316,7 +316,7 @@
         }
       }
     },
-    "/getpetbyid/{petId}": {
+    "/petbyid/{petId}": {
       "get": {
         "tags": [
           "pets"

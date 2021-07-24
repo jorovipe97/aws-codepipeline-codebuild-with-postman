@@ -23,6 +23,19 @@ aws s3 cp 02postman/PetStoreAPIEnvironment.postman_environment.json \
 # 		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
 # 	--capabilities CAPABILITY_NAMED_IAM
 
+# Create jorovipe97-github-connection stack.
+aws cloudformation create-stack --stack-name jorovipe97-github-connection \
+	--template-body file://./github-connection.yaml \
+	--parameters \
+		ParameterKey=ConnectionName,ParameterValue=jorovipe97-connection
+
+# Update jorovipe97-github-connection stack.
+aws cloudformation update-stack --stack-name jorovipe97-github-connection \
+	--template-body file://./github-connection.yaml \
+	--parameters \
+		ParameterKey=ConnectionName,ParameterValue=jorovipe97-connection
+
+# Create petstore-api-pipeline stack.
 aws cloudformation create-stack --stack-name petstore-api-pipeline \
 	--template-body file://./petstore-api-pipeline.yaml \
 	--parameters \
@@ -30,9 +43,10 @@ aws cloudformation create-stack --stack-name petstore-api-pipeline \
 		ParameterKey=GitHubBranch,ParameterValue=master \
 		ParameterKey=GitHubRepositoryName,ParameterValue=aws-codepipeline-codebuild-with-postman \
 		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
-		ParameterKey=ConnectionName,ParameterValue=github-postman-connection \
+		ParameterKey=GithubConnection,ParameterValue=jorovipe97-github-connection:jorovipe97-connection \
 	--capabilities CAPABILITY_NAMED_IAM
 
+# Update petstore-api-pipeline stack.
 aws cloudformation update-stack --stack-name petstore-api-pipeline \
 	--template-body file://./petstore-api-pipeline.yaml \
 	--parameters \
@@ -40,5 +54,5 @@ aws cloudformation update-stack --stack-name petstore-api-pipeline \
 		ParameterKey=GitHubBranch,ParameterValue=master \
 		ParameterKey=GitHubRepositoryName,ParameterValue=aws-codepipeline-codebuild-with-postman \
 		ParameterKey=GitHubUser,ParameterValue=jorovipe97 \
-		ParameterKey=ConnectionName,ParameterValue=github-postman-connection \
+		ParameterKey=GithubConnection,ParameterValue=jorovipe97-github-connection:jorovipe97-connection \
 	--capabilities CAPABILITY_NAMED_IAM
